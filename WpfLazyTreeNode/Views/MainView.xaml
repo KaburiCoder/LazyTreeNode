@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
   <Grid>
-    <TreeView ItemsSource="{Binding PathNodes}">
+    <TreeView ItemsSource="{Binding PathNodes}" FontSize="20">
       <TreeView.Resources>
         <Style TargetType="{x:Type TreeViewItem}">
           <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
@@ -17,7 +17,18 @@
 
       <TreeView.ItemTemplate>
         <HierarchicalDataTemplate DataType="{x:Type models:LazyTreeNode}" ItemsSource="{Binding Children}">
-          <TextBlock Text="{Binding Text}"/>
+          <StackPanel Orientation="Horizontal">
+            <Image x:Name="treeImage" Width="24" Height="24" Source="{Binding ClosedImage}"/>
+            <TextBlock Text="{Binding Text}"/>
+          </StackPanel>
+
+          <HierarchicalDataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsExpanded}" Value="True">
+              <Setter TargetName="treeImage"
+                      Property="Source"
+                      Value="{Binding OpenedImage}"/>
+            </DataTrigger>
+          </HierarchicalDataTemplate.Triggers>
         </HierarchicalDataTemplate>
       </TreeView.ItemTemplate>
     </TreeView>

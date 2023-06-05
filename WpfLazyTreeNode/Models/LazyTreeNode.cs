@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace WpfLazyTreeNode.Models
 {
@@ -31,7 +32,8 @@ namespace WpfLazyTreeNode.Models
     public string Key { get; set; } = string.Empty;
     public string Text { get; set; } = string.Empty;
     public object? Tag { get; set; }
-
+    public BitmapImage? OpenedImage { get; set; }
+    public BitmapImage? ClosedImage { get; set; }
     public LazyTreeNode? Parent { get; set; }
     public ObservableCollection<LazyTreeNode> Children
     {
@@ -54,9 +56,15 @@ namespace WpfLazyTreeNode.Models
         _isExpanded = value;
         if (_isExpanded)
         {
+          Children.Clear();
           OnExpanded?.Invoke(this);
         }
       }
+    }
+
+    public void AddDummyNode()
+    {
+      Children.Add(new LazyTreeNode());
     }
   }
 }
